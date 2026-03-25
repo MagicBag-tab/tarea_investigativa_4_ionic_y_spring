@@ -2,17 +2,17 @@ services:
 
   db:
     image: postgres:16-alpine
-    container_name: mm_db
+    container_name: musicmood_db
     environment:
-      POSTGRES_DB: mm_db
-      POSTGRES_USER: mm_user
-      POSTGRES_PASSWORD: mm_pass
+      POSTGRES_DB: musicmood_db
+      POSTGRES_USER: musicmood_user
+      POSTGRES_PASSWORD: musicmood_pass
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mm_user -d mm_db"]
+      test: ["CMD-SHELL", "pg_isready -U musicmood_user -d musicmood_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -21,13 +21,13 @@ services:
     build:
       context: ./backend-spring
       dockerfile: Dockerfile
-    container_name: mm_backend
+    container_name: musicmood_backend
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mm_db
-      SPRING_DATASOURCE_USERNAME: mm_user
-      SPRING_DATASOURCE_PASSWORD: mm_pass
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/musicmood_db
+      SPRING_DATASOURCE_USERNAME: musicmood_user
+      SPRING_DATASOURCE_PASSWORD: musicmood_pass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       db:
@@ -37,7 +37,7 @@ services:
     build:
       context: ./frontend-ionic
       dockerfile: Dockerfile
-    container_name: mm_frontend
+    container_name: musicmood_frontend
     ports:
       - "8100:80"
     depends_on:
