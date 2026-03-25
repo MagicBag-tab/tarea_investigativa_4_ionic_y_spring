@@ -11,10 +11,10 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.soundmood</groupId>
-    <artifactId>soundmood-backend</artifactId>
+    <groupId>com.musicmood</groupId>
+    <artifactId>musicmood-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>soundmood-backend</name>
+    <name>musicmood-backend</name>
     <description>SoundMood - Music Mood Tracker API</description>
 
     <properties>
