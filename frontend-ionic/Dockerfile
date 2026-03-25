@@ -2,13 +2,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-RUN npm install -g @ionic/cli @vue/cli
-
 COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN ionic build --prod
+RUN npm run build
 
 FROM nginx:alpine
 
