@@ -1,36 +1,36 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button default-href="/home" />
         </ion-buttons>
-        <ion-title>{{ isEditing ? 'Editar canción' : 'Nueva canción' }}</ion-title>
+        <ion-title>{{ isEditing ? 'Editar cancion' : 'Nueva cancion' }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Título *</ion-label>
-          <ion-input v-model="form.title" placeholder="Nombre de la canción" />
+          <ion-label position="floating">Titulo *</ion-label>
+          <ion-input v-model="form.title" placeholder="Nombre de la cancion" />
         </ion-item>
         <ion-item>
           <ion-label position="floating">Artista *</ion-label>
           <ion-input v-model="form.artist" placeholder="Nombre del artista" />
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Género</ion-label>
+          <ion-label position="floating">Genero</ion-label>
           <ion-input v-model="form.genre" placeholder="Pop, Rock, Jazz..." />
         </ion-item>
         <ion-item>
           <ion-label position="floating">Notas</ion-label>
-          <ion-textarea v-model="form.notes" placeholder="¿Qué te hace sentir esta canción?" :rows="3" />
+          <ion-textarea v-model="form.notes" placeholder="Que te hace sentir esta cancion?" :rows="3" />
         </ion-item>
       </ion-list>
 
       <div class="mood-section">
-        <p class="mood-title">¿Cuál es el mood? *</p>
+        <p class="mood-title">Mood *</p>
         <div class="mood-grid">
           <div
             v-for="mood in MOODS"
@@ -39,7 +39,6 @@
             :class="{ selected: form.mood === mood.value }"
             @click="form.mood = mood.value"
           >
-            <span class="mood-emoji">{{ mood.emoji }}</span>
             <span class="mood-label">{{ mood.label }}</span>
           </div>
         </div>
@@ -51,7 +50,7 @@
         :disabled="!isFormValid"
         @click="saveSong"
       >
-        {{ isEditing ? 'Guardar cambios' : 'Agregar canción' }}
+        {{ isEditing ? 'Guardar cambios' : 'Agregar cancion' }}
       </ion-button>
     </ion-content>
   </ion-page>
@@ -94,14 +93,14 @@ const saveSong = async () => {
   try {
     if (isEditing.value) {
       await songService.update(Number(route.params.id), form.value)
-      await showToast('Canción actualizada ✓')
+      await showToast('Cancion actualizada')
     } else {
       await songService.create(form.value)
-      await showToast('Canción agregada ✓')
+      await showToast('Cancion agregada')
     }
     router.push('/home')
   } catch (e) {
-    await showToast('Ocurrió un error', 'danger')
+    await showToast('Ocurrio un error', 'danger')
     console.error(e)
   } finally {
     await loading.dismiss()
@@ -126,7 +125,6 @@ onMounted(async () => {
 .mood-section { padding: 16px 0; }
 .mood-title {
   font-weight: 600;
-  color: var(--ion-color-dark);
   margin-bottom: 12px;
   padding: 0 4px;
 }
@@ -137,9 +135,9 @@ onMounted(async () => {
 }
 .mood-option {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 12px 4px;
+  justify-content: center;
+  padding: 14px 4px;
   border-radius: 12px;
   border: 2px solid var(--ion-color-light-shade);
   cursor: pointer;
@@ -149,15 +147,14 @@ onMounted(async () => {
   border-color: var(--ion-color-primary);
   background: var(--ion-color-primary-tint);
 }
-.mood-emoji { font-size: 28px; }
 .mood-label {
-  font-size: 11px;
-  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
   text-align: center;
   color: var(--ion-color-medium);
 }
 .mood-option.selected .mood-label {
   color: var(--ion-color-primary);
-  font-weight: 600;
+  font-weight: 700;
 }
 </style>

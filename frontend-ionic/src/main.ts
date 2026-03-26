@@ -14,6 +14,8 @@ import '@ionic/vue/css/text-transformation.css'
 import '@ionic/vue/css/flex-utils.css'
 import '@ionic/vue/css/display.css'
 
+document.documentElement.classList.add('ion-palette-dark')
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router)

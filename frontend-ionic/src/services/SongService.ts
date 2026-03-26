@@ -13,12 +13,12 @@ export interface Song {
 
 export type Mood = 'HAPPY' | 'SAD' | 'ENERGETIC' | 'RELAXED' | 'NOSTALGIC'
 
-export const MOODS: { value: Mood; label: string; emoji: string; color: string }[] = [
-  { value: 'HAPPY',     label: 'Feliz',      emoji: '😊', color: 'warning' },
-  { value: 'SAD',       label: 'Triste',     emoji: '😢', color: 'primary' },
-  { value: 'ENERGETIC', label: 'Enérgico',   emoji: '⚡', color: 'danger'  },
-  { value: 'RELAXED',   label: 'Relajado',   emoji: '😌', color: 'success' },
-  { value: 'NOSTALGIC', label: 'Nostálgico', emoji: '🌙', color: 'medium'  }
+export const MOODS: { value: Mood; label: string; color: string }[] = [
+  { value: 'HAPPY',     label: 'Feliz',      color: 'warning' },
+  { value: 'SAD',       label: 'Triste',     color: 'primary' },
+  { value: 'ENERGETIC', label: 'Energico',   color: 'danger'  },
+  { value: 'RELAXED',   label: 'Relajado',   color: 'success' },
+  { value: 'NOSTALGIC', label: 'Nostalgico', color: 'medium'  }
 ]
 
 export const songService = {

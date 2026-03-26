@@ -1,13 +1,8 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title>🎵 MusicMood</ion-title>
-        <ion-buttons slot="end">
-          <ion-button router-link="/song/new">
-            <ion-icon :icon="addOutline" slot="icon-only" />
-          </ion-button>
-        </ion-buttons>
+      <ion-toolbar>
+        <ion-title>MusicMood</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -15,7 +10,6 @@
       <div class="mood-filter">
         <ion-chip
           :outline="activeMood !== null"
-          color="primary"
           @click="filterByMood(null)"
         >
           Todos
@@ -27,7 +21,7 @@
           :color="mood.color"
           @click="filterByMood(mood.value)"
         >
-          {{ mood.emoji }} {{ mood.label }}
+          {{ mood.label }}
         </ion-chip>
       </div>
 
@@ -35,8 +29,8 @@
         <ion-item-sliding v-for="song in songs" :key="song.id">
           <ion-item>
             <ion-label>
-              <h2>{{ getMoodEmoji(song.mood) }} {{ song.title }}</h2>
-              <p>{{ song.artist }} <span v-if="song.genre">· {{ song.genre }}</span></p>
+              <h2>{{ song.title }}</h2>
+              <p>{{ song.artist }}<span v-if="song.genre"> · {{ song.genre }}</span></p>
               <p v-if="song.notes" class="notes">{{ song.notes }}</p>
             </ion-label>
             <ion-badge slot="end" :color="getMoodColor(song.mood)">
@@ -57,9 +51,15 @@
 
       <div v-else-if="!isLoading" class="empty-state">
         <ion-icon :icon="musicalNotesOutline" />
-        <p>No hay canciones aún</p>
-        <ion-button router-link="/song/new">Agregar una canción</ion-button>
+        <p>No hay canciones aun</p>
+        <ion-button router-link="/song/new">Agregar una cancion</ion-button>
       </div>
+
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button router-link="/song/new">
+          <ion-icon :icon="addOutline" />
+        </ion-fab-button>
+      </ion-fab>
     </ion-content>
   </ion-page>
 </template>
@@ -70,7 +70,8 @@ import { useRouter } from 'vue-router'
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonList, IonItem, IonItemSliding, IonItemOptions, IonItemOption,
-  IonLabel, IonBadge, IonChip, IonButton, IonButtons, IonIcon,
+  IonLabel, IonBadge, IonChip, IonButton, IonIcon,
+  IonFab, IonFabButton,
   alertController, loadingController
 } from '@ionic/vue'
 import { addOutline, createOutline, trashOutline, musicalNotesOutline } from 'ionicons/icons'
@@ -82,7 +83,6 @@ const isLoading = ref(false)
 const activeMood = ref<Mood | null>(null)
 
 const getMoodInfo = (mood: Mood) => MOODS.find(m => m.value === mood)
-const getMoodEmoji = (mood: Mood) => getMoodInfo(mood)?.emoji ?? ''
 const getMoodLabel = (mood: Mood) => getMoodInfo(mood)?.label ?? mood
 const getMoodColor = (mood: Mood) => getMoodInfo(mood)?.color ?? 'medium'
 
@@ -114,8 +114,8 @@ const editSong = (id: number) => {
 
 const confirmDelete = async (song: Song) => {
   const alert = await alertController.create({
-    header: 'Eliminar canción',
-    message: `¿Eliminar "${song.title}"?`,
+    header: 'Eliminar cancion',
+    message: `Eliminar "${song.title}"?`,
     buttons: [
       { text: 'Cancelar', role: 'cancel' },
       {
