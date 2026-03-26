@@ -10,17 +10,16 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/database
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U musicmood_user -d musicmood_db"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  backend-spring:
+  backend:
     build:
-      context: ./backend-spring
+      context: ./backend
       dockerfile: Dockerfile
     container_name: musicmood_backend
     ports:
@@ -34,15 +33,15 @@ services:
       db:
         condition: service_healthy
 
-  frontend-ionic:
+  frontend:
     build:
-      context: ./frontend-ionic
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: musicmood_frontend
     ports:
       - "8100:80"
     depends_on:
-      - backend-spring
+      - backend
 
 volumes:
   postgres_data:

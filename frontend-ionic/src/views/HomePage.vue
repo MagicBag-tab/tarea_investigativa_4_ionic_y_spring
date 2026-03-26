@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title> MusicMood</ion-title>
+        <ion-title>🎵 MusicMood</ion-title>
         <ion-buttons slot="end">
           <ion-button router-link="/song/new">
             <ion-icon :icon="addOutline" slot="icon-only" />
@@ -12,7 +12,6 @@
     </ion-header>
 
     <ion-content>
-      <!-- Filtro por mood -->
       <div class="mood-filter">
         <ion-chip
           :outline="activeMood !== null"
@@ -32,7 +31,6 @@
         </ion-chip>
       </div>
 
-      <!-- Lista de canciones -->
       <ion-list v-if="songs.length > 0">
         <ion-item-sliding v-for="song in songs" :key="song.id">
           <ion-item>
@@ -46,7 +44,6 @@
             </ion-badge>
           </ion-item>
 
-          <!-- Opciones al deslizar -->
           <ion-item-options side="end">
             <ion-item-option color="primary" @click="editSong(song.id!)">
               <ion-icon :icon="createOutline" slot="icon-only" />
@@ -58,15 +55,11 @@
         </ion-item-sliding>
       </ion-list>
 
-      <!-- Estado vacío -->
-      <div v-else class="empty-state">
+      <div v-else-if="!isLoading" class="empty-state">
         <ion-icon :icon="musicalNotesOutline" />
         <p>No hay canciones aún</p>
         <ion-button router-link="/song/new">Agregar una canción</ion-button>
       </div>
-
-      <!-- Loading -->
-      <ion-loading :is-open="loading" message="Cargando..." />
     </ion-content>
   </ion-page>
 </template>
@@ -78,14 +71,14 @@ import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonList, IonItem, IonItemSliding, IonItemOptions, IonItemOption,
   IonLabel, IonBadge, IonChip, IonButton, IonButtons, IonIcon,
-  IonLoading, alertController
+  alertController, loadingController
 } from '@ionic/vue'
 import { addOutline, createOutline, trashOutline, musicalNotesOutline } from 'ionicons/icons'
 import { songService, Song, Mood, MOODS } from '../services/SongService'
 
 const router = useRouter()
 const songs = ref<Song[]>([])
-const loading = ref(false)
+const isLoading = ref(false)
 const activeMood = ref<Mood | null>(null)
 
 const getMoodInfo = (mood: Mood) => MOODS.find(m => m.value === mood)
@@ -94,7 +87,9 @@ const getMoodLabel = (mood: Mood) => getMoodInfo(mood)?.label ?? mood
 const getMoodColor = (mood: Mood) => getMoodInfo(mood)?.color ?? 'medium'
 
 const loadSongs = async () => {
-  loading.value = true
+  isLoading.value = true
+  const loading = await loadingController.create({ message: 'Cargando...' })
+  await loading.present()
   try {
     const res = activeMood.value
       ? await songService.getByMood(activeMood.value)
@@ -103,7 +98,8 @@ const loadSongs = async () => {
   } catch (e) {
     console.error('Error cargando canciones:', e)
   } finally {
-    loading.value = false
+    isLoading.value = false
+    await loading.dismiss()
   }
 }
 
@@ -145,12 +141,10 @@ onMounted(loadSongs)
   gap: 4px;
   padding: 12px 16px;
 }
-
 .notes {
   font-style: italic;
   color: var(--ion-color-medium);
 }
-
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -160,7 +154,6 @@ onMounted(loadSongs)
   gap: 16px;
   color: var(--ion-color-medium);
 }
-
 .empty-state ion-icon {
   font-size: 64px;
 }
