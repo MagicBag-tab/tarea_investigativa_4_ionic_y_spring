@@ -81,7 +81,7 @@ import {
   IonLoading, alertController
 } from '@ionic/vue'
 import { addOutline, createOutline, trashOutline, musicalNotesOutline } from 'ionicons/icons'
-import { songService, Song, Mood, MOODS } from '../services/songService'
+import { songService, Song, Mood, MOODS } from '../services/SongService'
 
 const router = useRouter()
 const songs = ref<Song[]>([])

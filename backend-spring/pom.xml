@@ -15,46 +15,35 @@
     <artifactId>musicmood-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>musicmood-backend</name>
-    <description>SoundMood - Music Mood Tracker API</description>
+    <description>MusicMood - Music Mood Tracker API</description>
 
     <properties>
         <java.version>21</java.version>
     </properties>
 
     <dependencies>
-        <!-- Spring Web (REST API) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- Spring Data JPA (base de datos) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-        <!-- PostgreSQL Driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- Validaciones (@NotBlank, @Size, etc.) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
-        <!-- Lombok (evita boilerplate: getters, setters, constructores) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <!-- Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

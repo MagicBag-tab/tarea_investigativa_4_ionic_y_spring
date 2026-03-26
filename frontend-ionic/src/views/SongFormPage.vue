@@ -77,7 +77,7 @@ import {
   IonButton, IonButtons, IonBackButton, IonLoading,
   toastController
 } from '@ionic/vue'
-import { songService, Song, Mood, MOODS } from '../services/songService'
+import { songService, Song, Mood, MOODS } from '../services/SongService'
 
 const route = useRoute()
 const router = useRouter()
